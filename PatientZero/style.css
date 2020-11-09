@@ -1,0 +1,18 @@
+@media (min-width:34em){...} /* orig 34em */
+            @media(min-width:48em){...} /* orig 48em */
+            @media(min-width:62em){...} /* orig 62em */
+            @media(min-width:75em){...} /* orig 75em */
+            }
+            
+            
+            #title1{font-family: 'Creepster', cursive;}
+            
+            h3{
+                color:cadetblue;
+                font-size: 1.5em;
+            }
+            p{
+                color:white;
+                font-size: 0.8em;
+                padding: 1em;
+            }

@@ -1,0 +1,569 @@
+<html>
+    <head>
+        
+<!--
+EXTINCTION LEVEL EVENT - PLACE IN HOME FOLDER/ExtinctionLevelEvent
+Password1: time of play in minutes
+Password2: time until first clue (do 15)
+TO DO LIST:
+- Way of sharing only X # of hints with WHOLE GROUP!
+  (MySQL?)
+- What to do if people try and put in non-number in prompt
+- What to do if people just hit cancel with no entry
+- Code for when timer gets to zero -> game over video
+- Code for if they use alternative input to Josie (win/lose)
+- Encapsulate into functions or methods
+- Change the breakpoints so it goes straight to stackinger earlier and avoides the words over words issue
+- send the # of clues used and remaining time to win page or loss page
+
+-->
+        
+        
+        
+        
+        <!-- Required meta tags  for BOOTSTRAP -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        
+        <title>Clue Guru for Extinction Level Event!</title>
+        
+        <!-- Bootstrap CSS -->
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Sigmar+One" rel="stylesheet">
+        
+        <style ="text/css">
+            @media (min-width:34em){...} /* orig 34em */
+            @media(min-width:48em){...} /* orig 48em */
+            @media(min-width:62em){...} /* orig 62em */
+            @media(min-width:75em){...} /* orig 75em */
+            }
+            
+            
+            #title1{
+                font-family: 'Creepster', cursive;
+            }
+            body{
+                background-image: linear-gradient(darkblue, lightblue);
+                background-color: #FFC400; 
+                color:003AFF;
+            }
+            
+            h1{
+                font-family: 'Sigmar One', cursive;
+                color:orangered;
+                text-shadow: 4px 4px dimgray;
+                font-size: 4.5em;
+            }
+            
+            h3{
+                color:003AFF;
+                font-size: 1.5em;
+            }
+            p{
+                color:black;
+                font-size: 0.8em;
+                padding: 1em;
+            }
+      
+        
+        </style>
+        
+        <!-- ################MY CODE########################-->
+        
+<script type="text/javascript">
+	
+    
+//set # of possible clues
+var unusedClues = 3;
+var usedClues = 0;
+// set minutes
+   
+    
+    
+//ASK LENGTH OF GAME (password 1) 
+//AND then TIME UNTIL CLUES (password 2) 
+
+function password1(){
+    x = parseInt(prompt("password1?"));
+    var intYes=0;
+    var inRangeYes=0;
+    if (Number.isInteger(x)){
+            //alert('number is integer');
+        var intYes=1;
+    }else{
+            //alert('is NOT integer');
+        password1();
+        }
+   
+    if (x>0 && x <= 60){
+            //alert('x is in range');
+         inRangeYes = 1;   
+        }else{
+            //alert('x is NOT in range');
+            password1();
+        }
+    if (intYes && inRangeYes){
+            //alert("X PASSES MUSTER!")
+            return x;
+        }
+    }
+   
+    
+//Makes sure password 2 (time until clues allowed) < game time
+  function password2(){
+    x = parseInt(prompt("password2?"));
+    var intYes=0;
+    var inRangeYes=0;
+    if (Number.isInteger(x)){
+            //alert('number is integer');
+        var intYes=1;
+    }else{
+            //alert('is NOT integer');
+        password2();
+        }
+   
+    if (x < mins){
+            //alert('x is less than');
+            //alert(mins);
+         inRangeYes = 1;   
+        }else{
+            //alert('x is NOT in range');
+            password2();
+        }
+    if (intYes && inRangeYes){
+            //alert("Y PASSES MUSTER!")
+            return x;
+        }
+    }  
+    
+        
+
+    
+mins = password1(); 
+    
+var timeToFirstClue = password2();  
+    
+var giveFirstClue = mins-timeToFirstClue;
+ 
+    
+    
+    
+//COUNTDOWN
+// calculate the seconds (don't change this! unless time progresses at a different speed for you...)
+var secs = mins * 60;
+function countdown() {
+	setTimeout('Decrement()',1000);
+}
+function Decrement() {
+	if (document.getElementById) {
+		minutes = document.getElementById("minutes");
+		seconds = document.getElementById("seconds");
+        
+
+        
+		// if less than a minute remaining
+		if (seconds < 59) {
+			seconds.value = secs;
+		} else {
+			minutes.value = getminutes();
+			seconds.value = getseconds();
+            
+            if (seconds.value==0 && minutes.value==0){
+                window.location.assign("zombieDeath.html")
+            }
+		}
+		secs--;
+		setTimeout('Decrement()',1000);
+	}
+}
+function getminutes() {
+	// minutes is seconds divided by 60, rounded down
+	mins = Math.floor(secs / 60);
+	return mins;
+}
+function getseconds() {
+	// take mins remaining (as seconds) away from total seconds remaining
+	return secs-Math.round(mins *60);
+}
+
+    
+    
+    
+// HIDE THE PICTURE AND SHOW THE HIDDEN TEXT FOR EACH CLUE
+	function showClueHideBomb(clueID, pictureID) {
+    document.getElementById(clueID).style.display = "block";
+	document.getElementById(pictureID).style.display = "none";
+}
+	
+	function firstClue(clueID, pictureID){
+		timeElapsed=getminutes();
+        var message='';
+        var minsToClue = 1 + timeElapsed - giveFirstClue;
+		if(timeElapsed < giveFirstClue && unusedClues>0){
+				unusedClues --;
+				usedClues++;
+			showClueHideBomb(clueID, pictureID)
+			//alert('Here is Your clue')
+		}else if(timeElapsed < giveFirstClue && unusedClues<=0){
+			alert('you are out of clues')
+		}else if(timeElapsed >= giveFirstClue){
+            message = "you have to wait about "+String(minsToClue)+" more minutes."; 
+			alert(message);
+		}
+}
+    
+    
+    
+// FOR THE GAME BOOM!  ADAPT TO OFFER A WIN CODE!
+	function checkDisarmCode(fieldId){
+		if (document.getElementById(fieldId).value==="4590"){
+			alert("ASTEROID DESTROYED!  YOU SAVED THE WORLD!")
+		}else{
+			alert("ASTEROID IMPACTED!!! IT KILLED US ALL!!!! AAAAAHHHH!!!!")
+		}
+	}
+  
+// SET VARIABLES OUTSIDE OF A FUNCTION SO THEY ARE GLOBAL DUH!
+  var formID = [];
+  var entryFieldNames =["pw0","pw1","pw2","pw3","pw4"];
+
+                for (i=0; i<5; i++){
+                    ii=i.toString();
+                    x = "biohazardInput"+ii;
+                    formID.push(x); 
+                
+              //scaffolding    alert(formID[i]);
+                  
+                    }
+//declaring array for player's answers 
+var answer=[];
+
+var correctAnswers = [42,27,11,15,65];
+        
+  
+
+</script>
+    
+    </head>
+    
+<!-- #################BODY #############################-->
+    
+    
+        
+<div class="container">
+  <div class="row" style="margin-bottom: 40px;">
+    <div class="col-sm-8" >
+            <h3><em>Clue Guru for</em> </h3>
+        <div id="title1">
+            <h1>Extinction Level Event!</h1>
+        </div>
+
+            
+        <div id="timer" style="color:003AFF; font-size: 1.5em; line-height:1.3em;">
+	       You Have Only <input id="minutes" type="text" style="width: 40px; border: none; background-color:yellow; font-size: 24px; font-weight: bold; color:003AFF;"> minutes and <input id="seconds" type="text" style="width: 40px; border: none; background-color:yellow; font-size: 24px; font-weight: bold; color:003AFF;"> seconds <br />before the asteroid DESTROYS THE PLANET!
+        </div>
+      </div>
+      <div class="col-sm-4">
+          
+        <img src="Asteroid_smaller.jpeg"
+      
+      </div>
+    </div>
+            
+<script>
+countdown();
+</script>
+        </div>
+              
+        
+
+<!-- #####################GRID ######################## -->
+        
+        
+ <div class="container">
+  <div class="row" style="margin-bottom: 10px;">
+        
+<!-- ################# ROW 1 CELL 1 ########################-->
+      <div class="col-sm" style="min-height: 300px; min-width: 250px;">
+          <div id="football1" style="display:none;">
+              <h3>
+                  Free Hint on Missle Launch Control Panel
+              </h3>
+                <p>
+                  DO NOT TOUCH UNLESS YOU HAVE ALL FIVE KEYS
+                    <br />All keys must be turned at the EXACT same time. 
+                    <br />Sometimes the prop can be damaged in transit.  So it you think you did it successfully
+                    <br />contact your game master to get a decision on if you win or not.
+                    <br />Gool Luck!
+                </p>
+
+          </div>
+          
+          FREE HINT<div id="football2" style="background:black; height: 100; width:100;"><a  href="JavaScript:void(0)" onClick="showClueHideBomb('football1', 'football2');">
+
+              
+              <img src="football2.jpg" height="200" style="display:block; margin-left:auto; margin-right:auto;"><br /></a>
+          </div>
+        
+                
+        </div>
+      
+<!-- ################# ROW 1 CELL 2 ########################-->
+
+    <div class="col-sm" style="min-height: 300px; min-width: 250px;">
+        <div id="colon" style="display:none; ">
+            <h3>
+              Ammo Box with Screws
+              </h3>
+                <p>Look at the three electronic circuits in the diagram.  Then, one at a time connect the screws on the bottom of the ammo box with the wire according to the symbols on each diagram.  Now what does each look like?  
+                </p>
+        </div>
+        
+        <div id="colon2" style="background:black; height: 100; width:100;">
+            <a  href="JavaScript:void(0)" onClick="firstClue('colon','colon2');"><img src="electronic_diagram.png" width="200" style="display:block; margin-left:auto; margin-right:auto;"></a>
+        </div>
+    </div> 
+      
+<!-- ################# ROW 1 CELL 3 ########################-->
+
+      
+    <div class="col-sm" style="min-height: 300px; min-width: 250px;">
+        <div id="slides1" style="display:none;">
+            <h3>
+              Nato Sign
+              </h3>
+                <p>You'll need to see this one in different lighting - yet you do not need to remove it from the wall.  Then, when you can see a pattern you would normally hear - you'll figure it out after all.
+                </p>
+        </div>
+        
+        <div id="slides2" style="background:black; height: 100; width:100;">
+            <a  href="JavaScript:void(0)" onClick="firstClue('slides1','slides2');"><img src="Nato_sign.jpeg" height="200" style="display:block; margin-left:auto; margin-right:auto;"></a>
+        </div>
+    </div> 
+      
+</div><!-- end of row -->
+ 
+    
+            
+<!-- ################# ROW 2 CELL 1 ########################-->
+
+   <div class="row">
+       
+        <div class="col-sm" style="min-height: 300px; min-width: 250px;">
+            <div id="dirLock1" style="display:none;">
+                <h3>
+                  World Map
+                  </h3>
+                    <p>For this to be useful you will have to see it in different lighting without removing it from the wall!  And  the rest is formulaic. 
+                    </p>
+            </div>
+
+                <div id="dirLock2" style="background:black; height: 100; width:100;">
+                    <a  href="JavaScript:void(0)" onClick="firstClue('dirLock1','dirLock2');"><img src="UTF_mapjpeg.jpeg" width="200" style="display:block; margin-left:auto; margin-right:auto;"></a>
+            </div>
+        </div>
+       
+ <!-- ################# ROW 2 CELL 2 #######################-->      
+       
+       <div class="col-sm" style="min-height: 300px; min-width: 250px;">
+          <div id="combo1" style="display:none;">
+              <h3>
+                  Free Hint On Safe
+              </h3>
+                <p>Six-digit number and then push the # button before you turn the dial open.  You will need Three two-digit numbers to open this                <br />*rolls eyes*
+                <br />Get back to work.
+                </p>
+
+          </div>
+          
+          <div id="combo2" style="background:black; height: 100; width:100;"><a  href="JavaScript:void(0)" onClick="showClueHideBomb('combo1', 'combo2');">
+
+
+              <img src="safeHint.jpg" height="200" style="display:block; margin-left:auto; margin-right:auto;"></a>
+          </div>
+        
+                
+        </div>
+       
+<!-- ################# ROW 2 CELL 3 ########################-->
+  
+      <!--    <div class="col-sm" style="min-height: 300px; min-width: 250px;">
+            <div id="knight1" style="display:none;">
+                <h3>
+                  Scrabble
+                  </h3>
+                    <p>Sometimes people can win the game without ever solving this.  But if you can do it then you will earn a valuable clue that points you in the correct direction for the final puzzle to disarm the bomb.
+                    <br />First - make sure you have found all of them.  If you aren't making sense of them perhaps you should work on something else and come back if and when you find more or nothing else is yielding answers.
+                    <br /> Second, notice there are colors on the back of the pieces and colors on the playing surface as well.
+                    <br />Finally, remember that when you have a vertical word and a horizontal word that the same letter may be used twice.
+                    </p>
+            </div>
+
+                <div id="knight2" style="background:black; height: 100; width:100;">
+                    <a  href="JavaScript:void(0)" onClick="firstClue('knight1','knight2');"><img src="scrabble.jpg" height="200" style="display:block; margin-left:auto; margin-right:auto;"></a>
+            </div>
+        </div>
+       
+  </div>  END OF ROW 2 
+-->
+
+            
+<!-- ################# ROW 3 CELL 1 ########################-->
+
+<!--            
+    <div class="row">
+         <div class="col-sm" style="min-height: 300px; min-width: 250px;">
+            <div id="dash1" style="display:none;">
+                <h3>
+                  Test Blacklight
+                  </h3>
+                    Only at the endgame will you have everything unlocked so that the blacklight will be useful to you.
+                    <br />
+                    And when you do discover the secret writing notice that one word the authors writes is plural where it seems to be singular.  I wonder why that is?
+                    
+            </div>
+
+                <div id="dash2" style="background:black; height: 100; width:100;">
+                    <a  href="JavaScript:void(0)" onClick="firstClue('dash1','dash2');"><img src="blacklight.jpg" height="200" style="display:block; margin-left:auto; margin-right:auto;"></a>
+            </div>
+        </div>-->
+        
+<!-- ################# ROW 3 CELL 2 ########################-->
+    
+   <!--     
+                <div class="col-sm" style="min-height: 300px; min-width: 250px;">
+            <div id="ink1" style="display:none;">
+                <h3>
+                  Computer Keyboard
+                  </h3>
+                    <p>Have you noticed that the keys on this keyboard are out of order?
+                    <br /> No - do NOT pry them off and put them back.  You are smarter than that.
+                    <br />Instead perhaps think about what you would see on the screen if you tried to type certain words into that keyboard.
+                    </p>
+            </div>
+
+                <div id="ink2" style="background:black; height: 100; width:100;">
+                    <a  href="JavaScript:void(0)" onClick="firstClue('ink1','ink2');"><img src="Keyboard.JPG" height="200" style="display:block; margin-left:auto; margin-right:auto;"></a>
+            </div>
+        </div>-->
+        
+<!-- ################# ROW 3 CELL 3 ########################-->
+        
+     <!--   <div class="col-sm" style="min-height: 300px; min-width: 250px;">
+        
+                  <div id="freeHint1" style="display:none;">
+              <h3>
+                  Free Hint On Directional Locks
+              </h3>
+                <p>
+                  To use this lock clear it first by pushing up and down on the shackle (the silver part) twice.
+                 Then push the center in the direction you want but (very important) make sure it comes back to the center each time before you move it again.  <strong>Always</strong> come back to the center.  
+                <br />
+                 When you think you have entered the correct combination - PULL FIRMLY!  And if it doesn't open - reset and try it again.  
+                 <br/>
+                    GOOD LUCK!</p>
+        </div>
+                      
+          
+          <div id="dirLockFree" style="background:black; height: 100; width:100;"><a  href="JavaScript:void(0)" onClick="showClueHideBomb('freeHint1', 'dirLockFree');">
+            <img src="directional_lock.jpg" width="200" style="display:block; margin-left:auto; margin-right:auto;"></a>
+          </div>
+        </div>
+    </div>   end of ROW 3     
+-->
+        
+        
+<!-- ############## REMOTE BOMB DEFUSE FORM ################ 
+
+
+
+ <div class="col-sm" style="min-height:300px; min-width:250px;">
+      <!-- WORKING DATA ENTRY MODULE USE FOR BOOM! -->
+
+<!--
+            Enter Bomb Disarm Code HERE:<br />
+            WARNING: An incorrect code WILL detonate the bomb!
+                <form id="winForm">
+                <input type="password" name="secretCode" onkeypress="return noenter()"><br>
+            </form> 
+
+        <button onclick="winFunction()">Engage</button>
+
+        <p id="demo"></p>
+
+-->
+
+            
+
+ <!-- </div> <!-- end of row 4 cell 1 -->
+ <! -- </div>  <!-- end of ROW 4 -->    
+  
+      
+      
+ <!-- </div>    <!-- GRID container -->    
+    
+<!-- ################ END OF GRID #########################-->
+      
+    
+ <!-- ############ BOMB REMOTE DEFUSE SCRIPT ###############-->
+   
+    
+    <script>
+            
+            //This is to keep enter from submitting
+            function noenter() {
+            return !(window.event && window.event.keyCode == 13); }
+            
+            winCode = 12357; //first 5 prime numbers
+            
+            function winFunction(){
+                var x= document.getElementById("winForm");
+                var text = x.elements[0].value;
+                var codeEntered = parseInt(text);
+                if (isNaN(codeEntered)){
+                    alert('Only numbers allowed');
+                    return;
+                }
+                if (codeEntered == 4590){
+                    window.location.assign("winPage.html");
+                }else{
+                    window.location.assign("losePage.html");
+                }
+                //document.getElementById("demo").innerHTML = text;
+            }
+            
+
+    
+    
+    
+    
+    
+</script>
+            
+            
+            
+            
+
+        
+
+    
+            
+        
+        
+        
+    
+        
+<!-- ######## jQuery - Popper.js - Bootstrap JS ############-->
+        
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        
+        
+
+    
+    </body>
+</html>

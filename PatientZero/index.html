@@ -1,0 +1,405 @@
+<html>
+    <head>
+        
+<!--
+TO DO LIST:
+- Way of sharing only X # of hints with WHOLE GROUP!
+  (MySQL?)
+- What to do if people try and put in non-number in prompt
+- What to do if people just hit cancel with no entry
+- Code for when timer gets to zero -> game over video
+- Code for if they use alternative input to Josie (win/lose)
+- Encapsulate into functions or methods
+- Change the breakpoints so it goes straight to stackinger earlier and avoides the words over words issue
+- send the # of clues used and remaining time to win page or loss page
+
+-->
+        
+        
+        
+        
+        <!-- Required meta tags  for BOOTSTRAP -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        
+        <title>Clue Guru for Patient Zero</title>
+        
+        <!-- Bootstrap CSS -->
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+            <link href="https://fonts.googleapis.com/css?family=Creepster" rel="stylesheet">
+        <link rel="stylesheet" href="style.css">
+    
+        
+        <!-- ################MY CODE########################-->
+     
+
+
+
+    
+    </head>
+    
+<!-- #################BODY #############################-->
+    
+    <body style="background-color: black; color:white; ">
+        
+<div class="container">
+  <div class="row" style="margin-bottom: 40px;">
+    <div class="col-sm-8" >
+            <h3><em>Clue Guru for</em> </h3>
+        <div id="title1" style="font-family: 'Creepster', cursive; font-size: 4em;">Patient Zero</div>
+
+            
+        <div id="timer" style="color:white; font-size: 1.5em; line-height:1.3em;">
+	       You Have Only <input id="minutes" type="text" style="width: 40px; border: none; background-color:black; font-size: 28px; font-weight: bold; color:white;"> minutes and <input id="seconds" type="text" style="width: 40px; border: none; background-color:black; font-size: 28px; font-weight: bold; color:white;"> seconds <br />before the virus mutates beyond curing.
+        </div>
+      </div>
+      <div class="col-sm-4">
+          
+
+            <img src="cutep0.png" height="125;" width="100px;" style="display: block; margin-left:auto; margin-top:20px;">
+
+      
+      </div>
+    </div>
+
+        </div>
+              
+        
+
+<!-- #####################GRID ######################## -->
+        
+        
+ <div class="container">
+  <div class="row" style="margin-bottom: 10px;">
+        
+<!-- ################# ROW 1 CELL 1 ########################-->
+      <div class="col-sm" style="min-height: 300px; min-width: 250px;">
+          <div id="freeHint1" style="display:none;">
+              <h3>
+                  Free Hint On Directional Locks
+              </h3>
+                <p>
+                  To use this lock clear it first by pushing up and down on the shackle (the silver part) twice.
+                 Then push the center in the direction you want but (very important) make sure it comes back to the center each time before you move it again.  <strong>Always</strong> come back to the center.  
+                <br />
+                 When you think you have entered the correct combination - PULL FIRMLY!  And if it doesn't open - reset and try it again.  
+                 <br/>
+                    GOOD LUCK!</p>
+
+          </div>
+          
+          <div id="dirLockFree" style="background:black; height: 100; width:100;"><a  href="JavaScript:void(0)" onClick="showClueHideBomb('freeHint1', 'dirLockFree');">
+
+
+              <img src="directional_lock.jpg" width="200" style="display:block; margin-left:auto; margin-right:auto;"></a>
+          </div>
+        
+                
+        </div>
+      
+<!-- ################# ROW 1 CELL 2 ########################-->
+
+    <div class="col-sm" style="min-height: 300px; min-width: 250px;">
+        <div id="colon" style="display:none; ">
+            <h3>
+              Test Tubes with Tiny Lettering
+              </h3>
+                <p>Notice how two test tubes have tiny lettering on them?  And what is that colon for?  What do you write that has a colon in-between the digits?
+                </p>
+        </div>
+        
+        <div id="colon2" style="background:black; height: 100; width:100;">
+            <a  href="JavaScript:void(0)" onClick="firstClue('colon','colon2');"><img src="colon_vials2.jpg" width="200" style="display:block; margin-left:auto; margin-right:auto;"></a>
+        </div>
+    </div> 
+      
+<!-- ################# ROW 1 CELL 3 ########################-->
+
+      
+    <div class="col-sm" style="min-height: 300px; min-width: 250px;">
+        <div id="slides1" style="display:none;">
+            <h3>
+              Microscope Slides
+              </h3>
+                <p>Is it cold in here to you?<br />
+                    Seems freeeeezing to me!  So freaking cold!<br/> Oh - and you know when your parents told you not to touch anything when you were at the museum?  Forget about that completely right now.  Go ahead.  Touch.
+                </p>
+        </div>
+        
+        <div id="slides2" style="background:black; height: 100; width:100;">
+            <a  href="JavaScript:void(0)" onClick="firstClue('slides1','slides2');"><img src="slides.jpg" height="200" style="display:block; margin-left:auto; margin-right:auto;"></a>
+        </div>
+    </div> 
+      
+</div><!-- end of row -->
+ 
+    
+            
+<!-- ################# ROW 2 CELL 1 ########################-->
+
+   <div class="row">
+       
+        <div class="col-sm" style="min-height: 300px; min-width: 250px;">
+            <div id="dirLock1" style="display:none;">
+                <h3>
+                  Directional Lock Help
+                  </h3>
+                    <p>There is something in this room that has 8 particular ways of moving (and no it's not the thing with all the switches).
+                    <br />
+                    It always moves in a combination of directions - but only those specific 8 possibilities.
+                    <br />Sometimes people think it's 3 in one direction.  But it's not.  It's always moves two or less in any one direction.
+                    </p>
+            </div>
+
+                <div id="dirLock2" style="background:black; height: 100; width:100;">
+                    <a  href="JavaScript:void(0)" onClick="firstClue('dirLock1','dirLock2');"><img src="directional_lock_2.jpg" width="200" style="display:block; margin-left:auto; margin-right:auto;"></a>
+            </div>
+        </div>
+       
+ <!-- ################# ROW 2 CELL 2 #######################-->      
+       
+       <div class="col-sm" style="min-height: 300px; min-width: 250px;">
+          <div id="combo1" style="display:none;">
+              <h3>
+                  Free Hint On Combination Locks
+              </h3>
+                <p>
+                Spin the dial at least three times to the right (clockwise), all the way around. This "clears" the lock of any previous numbers. If at any point in putting in your combination you mess up, do this again to start over.
+                Stop at your first number. 
+                <br />
+                For your second number, turn the dial to the left, going past zero and your first number. Then stop at your second number.
+                <br />
+                For your third number, turn the dial to the right and go directly to the last number. Leave your lock on this number. Always remember: right, left, right.
+                <br />
+                If you are pretty sure you have the combination right and can't get it open feel free to ask your game master for help.  It doesn't count as a hint if it's a mechanical challenge.
+                </p>
+
+          </div>
+          
+          <div id="combo2" style="background:black; height: 100; width:100;"><a  href="JavaScript:void(0)" onClick="showClueHideBomb('combo1', 'combo2');">
+
+
+              <img src="combo_lock.jpg" height="200" style="display:block; margin-left:auto; margin-right:auto;"></a>
+          </div>
+        
+                
+        </div>
+       
+<!-- ################# ROW 2 CELL 3 ########################-->
+  
+          <div class="col-sm" style="min-height: 300px; min-width: 250px;">
+            <div id="knight1" style="display:none;">
+                <h3>
+                  The Knight
+                  </h3>
+                    <p>The knight always moves in the shape of an "L".  
+                    <br />
+                    It can move forward 2 and 1 to the right.
+                    <br />
+                    It can move forward 2 and 1 to the right.
+                    <br />
+                    It can move forward 1 and 2 to the right.
+                    <br />
+                    It can move forward 1 and 2 to the left.
+                    <br />
+                    It can move backwards 1 and 2 to the right.
+                    <br />
+                    It can move backwards 1 and 2 to the left.
+                    <br />
+                    It can move backwards 2 and 1 to the right.
+                    <br />
+                    It can move backwards 2 and 1 to the left.
+                    <br />
+                    It never moves 3 spaces.
+                    </p>
+            </div>
+
+                <div id="knight2" style="background:black; height: 100; width:100;">
+                    <a  href="JavaScript:void(0)" onClick="firstClue('knight1','knight2');"><img src="knight.gif" height="200" style="display:block; margin-left:auto; margin-right:auto;"></a>
+            </div>
+        </div>
+       
+  </div> <!-- END OF ROW 2 -->
+            
+<!-- ################# ROW 3 CELL 1 ########################-->
+
+            
+    <div class="row">
+         <div class="col-sm" style="min-height: 300px; min-width: 250px;">
+            <div id="dash1" style="display:none;">
+                <h3>
+                  Test Tubes with Dashes
+                  </h3>
+                    Did you notice how the size of the fonts of some of the test tubes are different?  Some of them are smaller and seem to go together.  Whereas these three that are a bigger font seem to go together.
+                    <br />
+                    And those dashes mean something.  Back in high school you used to write something in this way.
+                    
+            </div>
+
+                <div id="dash2" style="background:black; height: 100; width:100;">
+                    <a  href="JavaScript:void(0)" onClick="firstClue('dash1','dash2');"><img src="dash_tube.jpg" height="200" style="display:block; margin-left:auto; margin-right:auto;"></a>
+            </div>
+        </div>
+        
+<!-- ################# ROW 3 CELL 2 ########################-->
+    
+        
+                <div class="col-sm" style="min-height: 300px; min-width: 250px;">
+            <div id="ink1" style="display:none;">
+                <h3>
+                  Invisible Ink Clue
+                  </h3>
+                    <p>Who invented alternating current?  He also invented the radio.  He invented phospherescent light.  He was friends with Mark Twain and bitter rivals with Thomas Edison.  He demonstrated radio - and even piloted a radio-controlled boat in Madison Square Garden before Marconi received popular credit for it. 
+                    <br />
+                    He died in poverty and has only recently become very popular - especially with those that have a steampunk asthetic.  He made the _____ coil.
+                    <br />
+                    His first name is Nicola and his last name starts with a T.
+                    <br />
+                    and if you stillllll don't know - we just sent a car into space that was named after him.
+                    </p>
+            </div>
+
+                <div id="ink2" style="background:black; height: 100; width:100;">
+                    <a  href="JavaScript:void(0)" onClick="firstClue('ink1','ink2');"><img src="invisible_ink.jpg" height="200" style="display:block; margin-left:auto; margin-right:auto;"></a>
+            </div>
+        </div>
+        
+<!-- ################# ROW 3 CELL 3 ########################-->
+
+        <div class="col-sm" style="min-height: 300px; min-width: 250px;">
+            
+            
+  <div class="container">
+      
+          
+      <div class="row">
+          <h3>Remote Biohazard Reset Interface
+          </h3>
+      </div>
+      
+      <div class="row">
+          <div class="col-sm-5">
+              Parietal Cortex
+          </div>
+          <div class="col-sm-2">
+              
+          </div>
+          <div class="col-sm-3">
+              Program
+          </div>
+          <div class="col-sm-2">
+              <form id="biohazardInput0">
+                  <input type="password" name="pw0" onkeypress="return noenter()" style="width:2em;" 
+                         autocomplete="off" readonly 
+                  onfocus="this.removeAttribute('readonly');">
+              </form>
+              
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-sm-5">
+              Occipital Lobe
+          </div>
+          <div class="col-sm-2">
+              
+          </div>
+          <div class="col-sm-3">
+              Program
+          </div>
+          <div class="col-sm-2">
+              <form id="biohazardInput1">
+                  <input type="password" id="pw1" onkeypress="return noenter()" style="width:2em;"
+                         autocomplete="off" readonly 
+onfocus="this.removeAttribute('readonly');">
+              </form>
+          </div>
+      </div>
+            <div class="row">
+              <div class="col-sm-5">
+                  Temporal Lobe
+              </div>
+              <div class="col-sm-2">
+
+              </div>
+              <div class="col-sm-3">
+                  Program
+              </div>
+              <div class="col-sm-2">
+                  <form id="biohazardInput2">
+                      <input type="password"id="pw2"  onkeypress="return noenter()" style="width:2em;"
+                             autocomplete="off" readonly 
+onfocus="this.removeAttribute('readonly');">
+                  </form>
+              </div>
+          </div>
+            <div class="row">
+              <div class="col-sm-7">
+                  Orbitofrontal Cortex
+              </div>
+             <!-- <div class="col-sm-1">
+
+              </div> -->
+              <div class="col-sm-3">
+                  Program
+              </div>
+              <div class="col-sm-2">
+                  <form id="biohazardInput3">
+                      <input type="password" id="pw3" onkeypress="return noenter()" style="width:2em;" 
+                             autocomplete="off" readonly 
+onfocus="this.removeAttribute('readonly');">
+                  </form>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-sm-5">
+                  Premotor Cortex
+              </div>
+              <div class="col-sm-2">
+
+              </div>
+              <div class="col-sm-3">
+                  Program
+              </div>
+              <div class="col-sm-2">
+                  <form id="biohazardInput4">
+                      <input type="password" id="pw4" onkeypress="return noenter()" style="width:2em;"
+                             autocomplete="off" readonly 
+onfocus="this.removeAttribute('readonly');">
+                  </form>
+              </div>
+          </div>
+      
+      <div class="row"><br />
+            <div class="col-sm-4">
+            </div>
+            <div class="col-sm-4">
+                 <center><button onclick="bioHazard()">Engage</button>
+                </center> 
+            </div>
+          <div class="col-sm-4">
+              
+          </div>
+      </div>
+    </div>  <!-- end of row3 mini-container -->
+ </div> <!-- end of row 3 cell 3 -->
+</div>  <!-- end of ROW 3 -->    
+  
+      
+      
+ </div>    <!-- GRID container -->    
+    
+<!-- ################ END OF GRID #########################-->
+
+
+<script src="script.js"></script>             
+        
+<!-- ######## jQuery - Popper.js - Bootstrap JS ############-->
+        
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+     
+    
+    </body>
+</html>
